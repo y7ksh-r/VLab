@@ -1,0 +1,9 @@
+asgiref==3.8.1
+Django==4.2.20
+importlib-metadata==8.6.1
+Markdown==3.7
+pillow==11.1.0
+sqlparse==0.5.3
+typing-extensions==4.13.1
+tzdata==2025.2
+zipp==3.21.0

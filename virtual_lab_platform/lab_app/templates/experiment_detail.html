@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% load markdown %}
+
+{% block content %}
+<div class="bg-white shadow overflow-hidden sm:rounded-lg">
+    <!-- Header Section -->
+    <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+        <div class="flex items-center justify-between">
+            <div>
+                <h3 class="text-2xl font-bold text-gray-900">
+                    {{ experiment.title }}
+                </h3>
+                <p class="mt-1 text-sm text-gray-500">
+                    Subject: {{ experiment.subject.name }}
+                </p>
+            </div>
+            <a href="{% url 'lab_app:subject_list' experiment.subject.id %}" 
+               class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Back to Subject
+            </a>
+        </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="px-4 py-3 bg-gray-50 border-b border-gray-200">
+        <div class="flex flex-wrap gap-2">
+            <a href="#objective" class="inline-flex items-center px-3 py-1.5 border border-indigo-300 text-sm font-medium rounded-md text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <svg class="h-4 w-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Objective
+            </a>
+            <a href="#theory" class="inline-flex items-center px-3 py-1.5 border border-indigo-300 text-sm font-medium rounded-md text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <svg class="h-4 w-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+                Theory
+            </a>
+            <a href="#procedure" class="inline-flex items-center px-3 py-1.5 border border-indigo-300 text-sm font-medium rounded-md text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <svg class="h-4 w-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                </svg>
+                Procedure
+            </a>
+            {% if experiment.simulation_url or experiment.simulation_embed %}
+            <a href="#simulation" class="inline-flex items-center px-3 py-1.5 border border-indigo-300 text-sm font-medium rounded-md text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <svg class="h-4 w-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+                Simulation
+            </a>
+            {% endif %}
+            {% if experiment.questions.exists %}
+            <a href="#questions" class="inline-flex items-center px-3 py-1.5 border border-indigo-300 text-sm font-medium rounded-md text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <svg class="h-4 w-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Questions
+            </a>
+            {% endif %}
+            {% if experiment.additional_resources %}
+            <a href="#resources" class="inline-flex items-center px-3 py-1.5 border border-indigo-300 text-sm font-medium rounded-md text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <svg class="h-4 w-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+                Resources
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Content Sections -->
+    <div class="px-4 py-5 sm:p-6">
+        <div class="space-y-8">
+            <!-- Objective Section -->
+            <div id="objective" class="bg-white rounded-lg">
+                <div class="px-4 py-5 sm:p-6">
+                    <h4 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
+                        <svg class="h-6 w-6 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Objective
+                    </h4>
+                    <div class="prose prose-indigo max-w-none prose-headings:font-bold prose-p:text-gray-700 prose-li:text-gray-700">
+                        {{ experiment.objective|markdown|safe }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Theory Section -->
+            <div id="theory" class="bg-white rounded-lg">
+                <div class="px-4 py-5 sm:p-6">
+                    <h4 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
+                        <svg class="h-6 w-6 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                        Theory
+                    </h4>
+                    <div class="prose prose-indigo max-w-none prose-headings:font-bold prose-p:text-gray-700 prose-li:text-gray-700">
+                        {{ experiment.theory|markdown|safe }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Procedure Section -->
+            <div id="procedure" class="bg-white rounded-lg">
+                <div class="px-4 py-5 sm:p-6">
+                    <h4 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
+                        <svg class="h-6 w-6 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                        </svg>
+                        Procedure
+                    </h4>
+                    <div class="prose prose-indigo max-w-none prose-headings:font-bold prose-p:text-gray-700 prose-li:text-gray-700">
+                        {{ experiment.procedure|markdown|safe }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Simulation Section -->
+            {% if experiment.simulation_url or experiment.simulation_embed %}
+            <div id="simulation" class="bg-white rounded-lg">
+                <div class="px-4 py-5 sm:p-6">
+                    <h4 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
+                        <svg class="h-6 w-6 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                        Simulation
+                    </h4>
+                    <div class="mt-4">
+                        {% if experiment.simulation_url %}
+                        <a href="{{ experiment.simulation_url }}" target="_blank" 
+                           class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Open Simulation
+                        </a>
+                        {% endif %}
+                        {% if experiment.simulation_embed %}
+                        <div class="mt-4">
+                            {{ experiment.simulation_embed|safe }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Self-evaluation Questions Section -->
+            {% if experiment.questions.exists %}
+            <div id="questions" class="bg-white rounded-lg">
+                <div class="px-4 py-5 sm:p-6">
+                    <h4 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
+                        <svg class="h-6 w-6 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Self-evaluation Questions
+                    </h4>
+                    <div class="space-y-6">
+                        {% for question in experiment.questions.all %}
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-indigo-100 rounded-full">
+                                    <span class="text-indigo-600 font-medium">{{ forloop.counter }}</span>
+                                </div>
+                                <div class="ml-4">
+                                    <div class="prose prose-indigo max-w-none prose-headings:font-bold prose-p:text-gray-700 prose-li:text-gray-700">
+                                        {{ question.question_text|markdown|safe }}
+                                    </div>
+                                    {% if question.answer %}
+                                    <div class="mt-2">
+                                        <p class="text-sm text-gray-500">Answer:</p>
+                                        <div class="prose prose-indigo max-w-none prose-headings:font-bold prose-p:text-gray-700 prose-li:text-gray-700">
+                                            {{ question.answer|markdown|safe }}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Additional Resources Section -->
+            {% if experiment.additional_resources %}
+            <div id="resources" class="bg-white rounded-lg">
+                <div class="px-4 py-5 sm:p-6">
+                    <h4 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
+                        <svg class="h-6 w-6 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                        Additional Resources
+                    </h4>
+                    <div class="prose prose-indigo max-w-none prose-headings:font-bold prose-p:text-gray-700 prose-li:text-gray-700">
+                        {{ experiment.additional_resources|markdown|safe }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 
