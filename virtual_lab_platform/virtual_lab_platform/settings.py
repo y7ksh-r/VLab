@@ -37,7 +37,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    
+    # Local apps (place before third-party to ensure template precedence)
     'lab_app',
+    
+    # Third-party apps
+    'allauth',
+    'allauth.account',
+    # Temporarily remove Google OAuth
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.google',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -46,8 +58,11 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'lab_app.middleware.ProfileRequiredMiddleware',
+    'lab_app.middleware.SessionActivityMiddleware',
 ]
 
 ROOT_URLCONF = 'virtual_lab_platform.urls'
@@ -55,7 +70,9 @@ ROOT_URLCONF = 'virtual_lab_platform.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'lab_app' / 'templates',  # This ensures your custom templates are found first
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -119,9 +136,102 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "lab_app/static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Django Sites Framework
+SITE_ID = 1
+
+# Django Allauth Configuration
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# Allauth settings
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = 'none'  # No email verification required
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = None
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
+ACCOUNT_RATE_LIMITS = {
+    'login_failed': '5/5m',  # 5 failed attempts in 5 minutes
+}
+
+# Import app-specific settings from lab_app
+try:
+    from lab_app.settings import ACCOUNT_FORMS, ACCOUNT_ADAPTER, LOGIN_URL, LOGIN_REDIRECT_URL, LOGOUT_REDIRECT_URL
+    # Apply the imported settings
+    ACCOUNT_FORMS = ACCOUNT_FORMS
+    ACCOUNT_ADAPTER = ACCOUNT_ADAPTER
+    LOGIN_URL = LOGIN_URL
+    LOGIN_REDIRECT_URL = LOGIN_REDIRECT_URL
+    LOGOUT_REDIRECT_URL = LOGOUT_REDIRECT_URL
+except ImportError:
+    # Default settings if lab_app.settings is not available
+    LOGIN_URL = '/accounts/login/'
+    LOGIN_REDIRECT_URL = '/dashboard/'
+    LOGOUT_REDIRECT_URL = '/'
+    # Set custom forms directly if import fails
+    ACCOUNT_FORMS = {
+        'login': 'lab_app.forms.CustomLoginForm',
+        'signup': 'lab_app.forms.CustomSignupForm',
+    }
+    ACCOUNT_ADAPTER = 'lab_app.adapters.CustomAccountAdapter'
+ACCOUNT_LOGOUT_REDIRECT_URL = LOGOUT_REDIRECT_URL
+
+# Email Backend (for development)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# For production, configure SMTP settings:
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'your-email@gmail.com'
+# EMAIL_HOST_PASSWORD = 'your-app-password'
+
+# Google OAuth Settings (temporarily disabled)
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         'SCOPE': [
+#             'profile',
+#             'email',
+#         ],
+#         'AUTH_PARAMS': {
+#             'access_type': 'online',
+#         },
+#         'OAUTH_PKCE_ENABLED': True,
+#     }
+# }
+
+# Session Configuration
+SESSION_COOKIE_AGE = 86400  # 24 hours
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+# Security Settings
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Crispy Forms
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# Custom User Model (optional, using default User model with profile extension)
+# AUTH_USER_MODEL = 'lab_app.CustomUser'

@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ test.title }} - Test Details{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0"><i data-lucide="clipboard-list" class="me-2"></i>{{ test.title }}</h4>
+                        <span class="badge badge-{{ test.difficulty|lower }} fs-6">
+                            {{ test.get_difficulty_display }}
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h6 class="text-primary">Subject</h6>
+                        <p class="mb-1">{{ test.subject.name }}</p>
+                        <small class="text-muted">Semester {{ test.subject.semester }} - {{ test.subject.get_branch_display }}</small>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 class="text-primary">Description</h6>
+                        <p>{{ test.description }}</p>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-3 col-6 text-center">
+                            <div class="p-3 bg-light rounded">
+                                <i data-lucide="help-circle" class="text-primary mb-2" style="width: 24px; height: 24px;"></i>
+                                <div class="fw-bold">{{ test.question_count }}</div>
+                                <small class="text-muted">Questions</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 text-center">
+                            <div class="p-3 bg-light rounded">
+                                <i data-lucide="clock" class="text-warning mb-2" style="width: 24px; height: 24px;"></i>
+                                <div class="fw-bold">{{ test.duration }}</div>
+                                <small class="text-muted">Minutes</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 text-center">
+                            <div class="p-3 bg-light rounded">
+                                <i data-lucide="star" class="text-success mb-2" style="width: 24px; height: 24px;"></i>
+                                <div class="fw-bold">{{ test.total_marks }}</div>
+                                <small class="text-muted">Total Marks</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 text-center">
+                            <div class="p-3 bg-light rounded">
+                                <i data-lucide="target" class="text-info mb-2" style="width: 24px; height: 24px;"></i>
+                                <div class="fw-bold">{{ test.passing_marks }}</div>
+                                <small class="text-muted">Passing Marks</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if attempt %}
+                        {% if attempt.status == 'completed' %}
+                            <div class="alert alert-success">
+                                <i data-lucide="check-circle-2" class="me-2"></i>
+                                <strong>Test Completed!</strong> You have already completed this test.
+                                <br><small>Score: {{ attempt.score }}/{{ attempt.total_marks }} ({{ attempt.percentage }}%)</small>
+                            </div>
+                        {% elif attempt.status == 'started' %}
+                            <div class="alert alert-warning">
+                                <i data-lucide="clock" class="me-2"></i>
+                                <strong>Test In Progress!</strong> You have an ongoing attempt for this test.
+                            </div>
+                        {% endif %}
+                    {% endif %}
+
+                    <div class="alert alert-info">
+                        <i data-lucide="info" class="me-2"></i>
+                        <strong>Instructions:</strong>
+                        <ul class="mb-0 mt-2">
+                            <li>Once you start the test, the timer will begin automatically</li>
+                            <li>You can navigate between questions freely</li>
+                            <li>Make sure to submit the test before the time runs out</li>
+                            <li>You can only attempt this test once</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-transparent">
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'lab_app:test_list' %}" class="btn btn-outline-secondary">
+                            <i data-lucide="arrow-left" class="me-2"></i>Back to Tests
+                        </a>
+                        
+                        {% if attempt and attempt.status == 'completed' %}
+                            <a href="{% url 'lab_app:test_result' test.id %}" class="btn btn-success">
+                                <i data-lucide="eye" class="me-2"></i>View Results
+                            </a>
+                        {% elif attempt and attempt.status == 'started' %}
+                            <a href="{% url 'lab_app:take_test' test.id %}" class="btn btn-warning">
+                                <i data-lucide="play" class="me-2"></i>Continue Test
+                            </a>
+                        {% else %}
+                            <a href="{% url 'lab_app:take_test' test.id %}" class="btn btn-primary">
+                                <i data-lucide="play" class="me-2"></i>Start Test
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.badge-easy { background-color: #28a745; }
+.badge-medium { background-color: #ffc107; color: #000; }
+.badge-hard { background-color: #dc3545; }
+</style>
+{% endblock %}

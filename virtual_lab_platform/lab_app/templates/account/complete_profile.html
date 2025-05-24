@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Complete Your Profile - Virtual Lab Platform{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 py-12">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white shadow-xl rounded-lg overflow-hidden">
+            <div class="px-4 py-5 sm:px-6 bg-gradient-to-r from-indigo-500 to-purple-600">
+                <h3 class="text-lg font-medium text-white">
+                    Complete Your Profile
+                </h3>
+                <p class="mt-1 text-sm text-indigo-100">
+                    Please fill in your details to access the Virtual Lab Platform
+                </p>
+            </div>
+            
+            <div class="px-4 py-5 sm:p-6">
+                {% crispy form %}
+            </div>
+        </div>
+        
+        <div class="mt-6 text-center">
+            <p class="text-sm text-gray-600">
+                All fields are required to access lab content.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

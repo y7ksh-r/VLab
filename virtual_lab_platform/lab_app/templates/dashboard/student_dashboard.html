@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <div class="bg-white shadow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-6">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Welcome, {{ profile.full_name }}!</h1>
+                    <p class="text-gray-600">{{ profile.get_branch_display }} - Semester {{ profile.current_semester }}</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="text-right">
+                        <p class="text-sm font-medium text-gray-900">{{ user.email }}</p>
+                        <p class="text-sm text-gray-500">Roll No.: {{ profile.roll_no }}</p>
+                    </div>
+                    {% if profile.profile_picture %}
+                    <img class="h-10 w-10 rounded-full" src="{{ profile.profile_picture.url }}" alt="Profile">
+                    {% else %}
+                    <div class="h-10 w-10 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center">
+                        <span class="text-sm font-medium text-white">{{ profile.full_name.0 }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Overview -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="content-card content-card--primary">                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <i data-lucide="book-open" class="h-8 w-8 text-indigo-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Total Experiments</p>
+                        <p class="text-2xl font-semibold text-gray-900">{{ total_experiments }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-card content-card--accent">
+                <div class="flex items-center">                    <div class="flex-shrink-0">
+                        <i data-lucide="check-circle-2" class="h-8 w-8 text-green-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Completed</p>
+                        <p class="text-2xl font-semibold text-gray-900">{{ completed_experiments }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-card content-card--secondary">
+                <div class="flex items-center">                    <div class="flex-shrink-0">
+                        <i data-lucide="clock" class="h-8 w-8 text-orange-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">In Progress</p>
+                        <p class="text-2xl font-semibold text-gray-900">{{ in_progress_experiments }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-card content-card--neutral">
+                <div class="flex items-center">                    <div class="flex-shrink-0">
+                        <div class="relative">
+                            <svg class="h-14 w-14 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="text-xs font-bold text-purple-600">{{ progress_percentage }}%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Progress</p>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                            <div class="bg-gradient-to-r from-purple-500 to-pink-600 h-2 rounded-full" style="width: {{ progress_percentage }}%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subjects Section -->
+        <div class="mb-8">
+            <h2 class="text-xl font-bold text-gray-900 mb-6">Your Subjects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for subject in subjects %}
+                <div class="subject-card">
+                    <div class="flex items-center mb-4">                        <div class="flex-shrink-0">
+                            <i data-lucide="book-open" class="h-8 w-8 text-indigo-600"></i>
+                        </div>
+                        <div class="ml-4 w-0 flex-1">
+                            <h3 class="text-lg font-semibold text-gray-900 truncate">
+                                {{ subject.name }}
+                            </h3>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">
+                        {{ subject.description|truncatewords:20 }}
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-500">{{ subject.experiment_count }} experiment{{ subject.experiment_count|pluralize }}</span>                        <a href="{% url 'lab_app:subject_list' subject.id %}" class="btn btn--primary">
+                            View Experiments
+                             <i data-lucide="arrow-right" class="btn__icon"></i>
+                        </a>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-span-full text-center py-12">                    <i data-lucide="book-open" class="mx-auto h-12 w-12 text-gray-400"></i>
+                    <h3 class="mt-2 text-sm font-medium text-gray-900">No subjects available</h3>
+                    <p class="mt-1 text-sm text-gray-500">Subjects for your semester and branch will appear here.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        {% if recent_progress %}
+        <div class="mb-8">
+            <h2 class="text-xl font-bold text-gray-900 mb-6">Recent Activity</h2>
+            <div class="content-card">
+                <div class="space-y-4">
+                    {% for progress in recent_progress %}
+                    <div class="flex items-center justify-between py-3 border-b border-gray-200 last:border-b-0">
+                        <div class="flex items-center space-x-3">                            <div class="experiment-number">
+                                {% if progress.status == 'completed' %}
+                                <i data-lucide="check-circle" class="w-4 h-4"></i>
+                                {% elif progress.status == 'in_progress' %}
+                                <i data-lucide="play-circle" class="w-4 h-4"></i>
+                                {% else %}
+                                <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <p class="font-medium text-gray-900">{{ progress.experiment.title }}</p>
+                                <p class="text-sm text-gray-500">{{ progress.experiment.subject.name }}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                {% if progress.status == 'completed' %}bg-green-100 text-green-800
+                                {% elif progress.status == 'in_progress' %}bg-yellow-100 text-yellow-800
+                                {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                {{ progress.get_status_display }}
+                            </span>
+                            <p class="text-xs text-gray-500 mt-1">{{ progress.last_accessed|timesince }} ago</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

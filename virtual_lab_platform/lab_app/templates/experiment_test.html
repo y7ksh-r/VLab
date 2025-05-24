@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/markdown.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="bg-white shadow overflow-hidden sm:rounded-lg">
+    <!-- Header Section -->
+    <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+        <div class="flex items-center justify-between">
+            <div>
+                <h3 class="text-2xl font-bold text-gray-900">
+                    MCQ Test - {{ experiment.title }}
+                </h3>                <p class="mt-1 text-sm text-gray-500">
+                    Subject: {{ experiment.subject.name }} | Passing Score: {{ test.passing_marks }}/{{ test.total_marks }}
+                </p>
+            </div>
+            <a href="{% url 'lab_app:experiment_detail' experiment.id %}" 
+               class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Back to Experiment
+            </a>
+        </div>
+    </div>
+
+    <!-- Test Instructions -->
+    <div class="px-4 py-5 sm:px-6 bg-blue-50 border-b border-blue-200">
+        <div class="flex items-start">
+            <div class="flex-shrink-0">
+                <i data-lucide="info" class="h-6 w-6 text-blue-600"></i>
+            </div>
+            <div class="ml-3">
+                <h4 class="text-lg font-medium text-blue-900">Test Instructions</h4>                <div class="mt-2 text-sm text-blue-700">
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>This test contains {{ test.mcq_questions.count }} multiple choice questions</li>
+                        <li>You need to score {{ test.passing_marks }}/{{ test.total_marks }} ({{ test.passing_marks|floatformat:0 }}%) or higher to pass</li>
+                        <li>Select the best answer for each question</li>
+                        <li>You can change your answers before submitting</li>
+                        <li>Click "Submit Test" when you're ready to submit all answers</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Form -->
+    <form method="post" action="{% url 'lab_app:experiment_test' experiment.id %}" class="px-4 py-5 sm:p-6">
+        {% csrf_token %}
+          <div class="space-y-8">
+            {% for question in questions %}
+            <div class="bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-200">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-indigo-100 rounded-full">
+                        <span class="text-indigo-600 font-bold text-lg">{{ forloop.counter }}</span>
+                    </div>
+                    <div class="ml-4 flex-1">
+                        <h5 class="text-lg font-semibold text-gray-900 mb-4">
+                            {{ question.question_text }}
+                        </h5>
+                        
+                        <div class="space-y-3">                            <label class="flex items-start p-3 border border-gray-200 rounded-lg hover:bg-white hover:border-indigo-300 cursor-pointer transition-colors duration-200">
+                                <input type="radio" name="question_{{ question.id }}" value="A" 
+                                       class="mt-1 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300">
+                                <span class="ml-3 text-gray-900">
+                                    <span class="font-medium text-indigo-600 mr-2">A)</span>
+                                    {{ question.option_a }}
+                                </span>
+                            </label>
+                            
+                            <label class="flex items-start p-3 border border-gray-200 rounded-lg hover:bg-white hover:border-indigo-300 cursor-pointer transition-colors duration-200">
+                                <input type="radio" name="question_{{ question.id }}" value="B" 
+                                       class="mt-1 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300">
+                                <span class="ml-3 text-gray-900">
+                                    <span class="font-medium text-indigo-600 mr-2">B)</span>
+                                    {{ question.option_b }}
+                                </span>
+                            </label>
+                            
+                            <label class="flex items-start p-3 border border-gray-200 rounded-lg hover:bg-white hover:border-indigo-300 cursor-pointer transition-colors duration-200">
+                                <input type="radio" name="question_{{ question.id }}" value="C" 
+                                       class="mt-1 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300">
+                                <span class="ml-3 text-gray-900">
+                                    <span class="font-medium text-indigo-600 mr-2">C)</span>
+                                    {{ question.option_c }}
+                                </span>
+                            </label>
+                            
+                            <label class="flex items-start p-3 border border-gray-200 rounded-lg hover:bg-white hover:border-indigo-300 cursor-pointer transition-colors duration-200">
+                                <input type="radio" name="question_{{ question.id }}" value="D" 
+                                       class="mt-1 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300">
+                                <span class="ml-3 text-gray-900">
+                                    <span class="font-medium text-indigo-600 mr-2">D)</span>
+                                    {{ question.option_d }}
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Submit Button -->
+        <div class="mt-8 flex justify-center">
+            <button type="submit" 
+                    onclick="return confirm('Are you sure you want to submit your test? You cannot change your answers after submission.')"
+                    class="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200 shadow-lg">
+                <i data-lucide="send" class="h-5 w-5 mr-2"></i>
+                Submit Test
+            </button>
+        </div>
+    </form>
+</div>
+
+<style>
+.choice-label:hover {
+    background-color: #f8fafc;
+    border-color: #6366f1;
+}
+
+input[type="radio"]:checked + span {
+    color: #4f46e5;
+    font-weight: 600;
+}
+
+input[type="radio"]:checked {
+    background-color: #4f46e5;
+    border-color: #4f46e5;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add visual feedback for selected answers
+    const radioInputs = document.querySelectorAll('input[type="radio"]');
+    
+    radioInputs.forEach(function(input) {
+        input.addEventListener('change', function() {
+            // Remove selection styling from all options in this question
+            const questionName = this.name;
+            const allOptionsForQuestion = document.querySelectorAll('input[name="' + questionName + '"]');
+            
+            allOptionsForQuestion.forEach(function(option) {
+                const label = option.closest('label');
+                label.classList.remove('bg-indigo-50', 'border-indigo-500');
+                label.classList.add('border-gray-200');
+            });
+            
+            // Add selection styling to selected option
+            const selectedLabel = this.closest('label');
+            selectedLabel.classList.add('bg-indigo-50', 'border-indigo-500');
+            selectedLabel.classList.remove('border-gray-200');        });
+    });
+    
+    // Progress tracking
+    function updateProgress() {
+        const totalQuestions = parseInt('{{ test.mcq_questions.count|default:0 }}');
+        const answeredQuestions = new Set();
+        
+        radioInputs.forEach(function(input) {
+            if (input.checked) {
+                answeredQuestions.add(input.name);
+            }
+        });
+        
+        const progress = (answeredQuestions.size / totalQuestions) * 100;
+        console.log('Progress: ' + answeredQuestions.size + '/' + totalQuestions + ' questions answered (' + progress.toFixed(1) + '%)');
+    }
+    
+    radioInputs.forEach(function(input) {
+        input.addEventListener('change', updateProgress);
+    });
+});
+</script>
+{% endblock %}

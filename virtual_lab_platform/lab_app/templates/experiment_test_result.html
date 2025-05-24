@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/markdown.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="bg-white shadow overflow-hidden sm:rounded-lg">
+    <!-- Header Section -->
+    <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+        <div class="flex items-center justify-between">
+            <div>
+                <h3 class="text-2xl font-bold text-gray-900">
+                    Test Results - {{ experiment.title }}
+                </h3>
+                <p class="mt-1 text-sm text-gray-500">
+                    Subject: {{ experiment.subject.name }}
+                </p>
+            </div>
+            <a href="{% url 'lab_app:experiment_detail' experiment.id %}" 
+               class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Back to Experiment
+            </a>
+        </div>
+    </div>
+
+    <!-- Result Summary -->
+    <div class="px-4 py-5 sm:px-6 {% if test_attempt.passed %}bg-green-50 border-b border-green-200{% else %}bg-red-50 border-b border-red-200{% endif %}">
+        <div class="flex items-center">
+            <div class="flex-shrink-0">
+                {% if test_attempt.passed %}
+                <i data-lucide="check-circle" class="h-12 w-12 text-green-600"></i>
+                {% else %}
+                <i data-lucide="x-circle" class="h-12 w-12 text-red-600"></i>
+                {% endif %}
+            </div>
+            <div class="ml-4">
+                <h4 class="text-2xl font-bold {% if test_attempt.passed %}text-green-900{% else %}text-red-900{% endif %}">
+                    {% if test_attempt.passed %}
+                        Congratulations! You Passed!
+                    {% else %}
+                        Test Not Passed
+                    {% endif %}
+                </h4>
+                <div class="mt-2 {% if test_attempt.passed %}text-green-700{% else %}text-red-700{% endif %}">                    <p class="text-lg">
+                        Your Score: <span class="font-bold">{{ test_attempt.percentage|floatformat:1 }}%</span>
+                        <span class="text-sm ml-2">
+                            ({{ correct_answers }} out of {{ total_questions }} correct)
+                        </span>
+                    </p>
+                    <p class="text-sm mt-1">
+                        Passing Score: {{ test.passing_marks }}/{{ test.total_marks }} | 
+                        Completed on: {{ test_attempt.completed_at|date:"F d, Y \a\t g:i A" }}
+                    </p>
+                    {% if test_attempt.passed %}
+                    <p class="text-sm mt-2 font-medium">
+                        🎉 This experiment is now marked as completed!
+                    </p>
+                    {% else %}
+                    <p class="text-sm mt-2 font-medium">
+                        You can retake the test to improve your score and complete the experiment.
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Results -->
+    <div class="px-4 py-5 sm:p-6">
+        <h5 class="text-lg font-semibold text-gray-900 mb-6">Detailed Results</h5>
+        
+        <div class="space-y-6">
+            {% for response in test_responses %}
+            <div class="bg-gray-50 rounded-lg p-6 shadow-sm border-l-4 {% if response.is_correct %}border-green-500{% else %}border-red-500{% endif %}">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center {% if response.is_correct %}bg-green-100{% else %}bg-red-100{% endif %} rounded-full">
+                        {% if response.is_correct %}
+                        <i data-lucide="check" class="h-6 w-6 text-green-600"></i>
+                        {% else %}
+                        <i data-lucide="x" class="h-6 w-6 text-red-600"></i>
+                        {% endif %}
+                    </div>
+                    <div class="ml-4 flex-1">
+                        <h6 class="text-lg font-medium text-gray-900 mb-3">
+                            Question {{ forloop.counter }}: {{ response.question.question_text }}
+                        </h6>
+                          <!-- Answer Choices -->
+                        <div class="space-y-2">
+                            {% with correct=response.question.correct_option selected=response.selected_option %}
+                            
+                            <div class="flex items-center p-3 rounded-lg {% if selected == 'A' %}{% if correct == 'A' %}bg-green-100 border border-green-300{% else %}bg-red-100 border border-red-300{% endif %}{% elif correct == 'A' %}bg-green-100 border border-green-300{% else %}bg-white border border-gray-200{% endif %}">
+                                <span class="font-medium mr-3 {% if selected == 'A' %}{% if correct == 'A' %}text-green-700{% else %}text-red-700{% endif %}{% elif correct == 'A' %}text-green-700{% else %}text-gray-600{% endif %}">A)</span>
+                                <span class="{% if selected == 'A' %}{% if correct == 'A' %}text-green-700{% else %}text-red-700{% endif %}{% elif correct == 'A' %}text-green-700{% else %}text-gray-900{% endif %}">{{ response.question.option_a }}</span>
+                                {% if selected == 'A' %}
+                                <span class="ml-auto flex items-center">
+                                    {% if correct == 'A' %}
+                                    <i data-lucide="check-circle" class="h-5 w-5 text-green-600"></i>
+                                    <span class="ml-1 text-sm text-green-700 font-medium">Your Answer (Correct)</span>
+                                    {% else %}
+                                    <i data-lucide="x-circle" class="h-5 w-5 text-red-600"></i>
+                                    <span class="ml-1 text-sm text-red-700 font-medium">Your Answer (Incorrect)</span>
+                                    {% endif %}
+                                </span>
+                                {% elif correct == 'A' %}
+                                <span class="ml-auto flex items-center">
+                                    <i data-lucide="check-circle" class="h-5 w-5 text-green-600"></i>
+                                    <span class="ml-1 text-sm text-green-700 font-medium">Correct Answer</span>
+                                </span>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="flex items-center p-3 rounded-lg {% if selected == 'B' %}{% if correct == 'B' %}bg-green-100 border border-green-300{% else %}bg-red-100 border border-red-300{% endif %}{% elif correct == 'B' %}bg-green-100 border border-green-300{% else %}bg-white border border-gray-200{% endif %}">
+                                <span class="font-medium mr-3 {% if selected == 'B' %}{% if correct == 'B' %}text-green-700{% else %}text-red-700{% endif %}{% elif correct == 'B' %}text-green-700{% else %}text-gray-600{% endif %}">B)</span>
+                                <span class="{% if selected == 'B' %}{% if correct == 'B' %}text-green-700{% else %}text-red-700{% endif %}{% elif correct == 'B' %}text-green-700{% else %}text-gray-900{% endif %}">{{ response.question.option_b }}</span>
+                                {% if selected == 'B' %}
+                                <span class="ml-auto flex items-center">
+                                    {% if correct == 'B' %}
+                                    <i data-lucide="check-circle" class="h-5 w-5 text-green-600"></i>
+                                    <span class="ml-1 text-sm text-green-700 font-medium">Your Answer (Correct)</span>
+                                    {% else %}
+                                    <i data-lucide="x-circle" class="h-5 w-5 text-red-600"></i>
+                                    <span class="ml-1 text-sm text-red-700 font-medium">Your Answer (Incorrect)</span>
+                                    {% endif %}
+                                </span>
+                                {% elif correct == 'B' %}
+                                <span class="ml-auto flex items-center">
+                                    <i data-lucide="check-circle" class="h-5 w-5 text-green-600"></i>
+                                    <span class="ml-1 text-sm text-green-700 font-medium">Correct Answer</span>
+                                </span>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="flex items-center p-3 rounded-lg {% if selected == 'C' %}{% if correct == 'C' %}bg-green-100 border border-green-300{% else %}bg-red-100 border border-red-300{% endif %}{% elif correct == 'C' %}bg-green-100 border border-green-300{% else %}bg-white border border-gray-200{% endif %}">
+                                <span class="font-medium mr-3 {% if selected == 'C' %}{% if correct == 'C' %}text-green-700{% else %}text-red-700{% endif %}{% elif correct == 'C' %}text-green-700{% else %}text-gray-600{% endif %}">C)</span>
+                                <span class="{% if selected == 'C' %}{% if correct == 'C' %}text-green-700{% else %}text-red-700{% endif %}{% elif correct == 'C' %}text-green-700{% else %}text-gray-900{% endif %}">{{ response.question.option_c }}</span>
+                                {% if selected == 'C' %}
+                                <span class="ml-auto flex items-center">
+                                    {% if correct == 'C' %}
+                                    <i data-lucide="check-circle" class="h-5 w-5 text-green-600"></i>
+                                    <span class="ml-1 text-sm text-green-700 font-medium">Your Answer (Correct)</span>
+                                    {% else %}
+                                    <i data-lucide="x-circle" class="h-5 w-5 text-red-600"></i>
+                                    <span class="ml-1 text-sm text-red-700 font-medium">Your Answer (Incorrect)</span>
+                                    {% endif %}
+                                </span>
+                                {% elif correct == 'C' %}
+                                <span class="ml-auto flex items-center">
+                                    <i data-lucide="check-circle" class="h-5 w-5 text-green-600"></i>
+                                    <span class="ml-1 text-sm text-green-700 font-medium">Correct Answer</span>
+                                </span>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="flex items-center p-3 rounded-lg {% if selected == 'D' %}{% if correct == 'D' %}bg-green-100 border border-green-300{% else %}bg-red-100 border border-red-300{% endif %}{% elif correct == 'D' %}bg-green-100 border border-green-300{% else %}bg-white border border-gray-200{% endif %}">
+                                <span class="font-medium mr-3 {% if selected == 'D' %}{% if correct == 'D' %}text-green-700{% else %}text-red-700{% endif %}{% elif correct == 'D' %}text-green-700{% else %}text-gray-600{% endif %}">D)</span>
+                                <span class="{% if selected == 'D' %}{% if correct == 'D' %}text-green-700{% else %}text-red-700{% endif %}{% elif correct == 'D' %}text-green-700{% else %}text-gray-900{% endif %}">{{ response.question.option_d }}</span>
+                                {% if selected == 'D' %}
+                                <span class="ml-auto flex items-center">
+                                    {% if correct == 'D' %}
+                                    <i data-lucide="check-circle" class="h-5 w-5 text-green-600"></i>
+                                    <span class="ml-1 text-sm text-green-700 font-medium">Your Answer (Correct)</span>
+                                    {% else %}
+                                    <i data-lucide="x-circle" class="h-5 w-5 text-red-600"></i>
+                                    <span class="ml-1 text-sm text-red-700 font-medium">Your Answer (Incorrect)</span>
+                                    {% endif %}
+                                </span>
+                                {% elif correct == 'D' %}
+                                <span class="ml-auto flex items-center">
+                                    <i data-lucide="check-circle" class="h-5 w-5 text-green-600"></i>
+                                    <span class="ml-1 text-sm text-green-700 font-medium">Correct Answer</span>
+                                </span>
+                                {% endif %}
+                            </div>
+                            
+                            {% endwith %}
+                        </div>
+
+                        <!-- Explanation if available -->
+                        {% if response.question.explanation %}
+                        <div class="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                            <h7 class="text-sm font-medium text-blue-900 mb-2 flex items-center">
+                                <i data-lucide="lightbulb" class="h-4 w-4 mr-2"></i>
+                                Explanation
+                            </h7>
+                            <p class="text-sm text-blue-700">{{ response.question.explanation }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-8 flex justify-center space-x-4">
+            {% if not test_attempt.passed %}
+            <a href="{% url 'lab_app:experiment_test' experiment.id %}" 
+               class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                <i data-lucide="repeat" class="h-5 w-5 mr-2"></i>
+                Retake Test
+            </a>
+            {% endif %}
+            
+            <a href="{% url 'lab_app:experiment_detail' experiment.id %}" 
+               class="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                <i data-lucide="arrow-left" class="h-5 w-5 mr-2"></i>
+                Back to Experiment
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

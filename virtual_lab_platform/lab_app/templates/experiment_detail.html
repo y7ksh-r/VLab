@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
-{% load markdown %}
+{% load markdown_extras %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/markdown.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="bg-white shadow overflow-hidden sm:rounded-lg">
@@ -21,184 +26,407 @@
         </div>
     </div>
 
-    <!-- Navigation Buttons -->
-    <div class="px-4 py-3 bg-gray-50 border-b border-gray-200">
-        <div class="flex flex-wrap gap-2">
-            <a href="#objective" class="inline-flex items-center px-3 py-1.5 border border-indigo-300 text-sm font-medium rounded-md text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <svg class="h-4 w-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                Objective
-            </a>
-            <a href="#theory" class="inline-flex items-center px-3 py-1.5 border border-indigo-300 text-sm font-medium rounded-md text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <svg class="h-4 w-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                </svg>
-                Theory
-            </a>
-            <a href="#procedure" class="inline-flex items-center px-3 py-1.5 border border-indigo-300 text-sm font-medium rounded-md text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <svg class="h-4 w-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
-                </svg>
-                Procedure
-            </a>
+    <!-- Navigation Cards -->
+    <div class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+        <div class="grid grid-cols-2 md:grid-cols-3 {% if has_test %}lg:grid-cols-7{% else %}lg:grid-cols-6{% endif %} gap-1">
+            <div class="nav-card active cursor-pointer p-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:from-indigo-600 hover:to-purple-700 transition-all duration-300" data-section="objective">
+                <div class="text-center">
+                    <i data-lucide="target" class="h-6 w-6 mx-auto mb-2"></i>
+                    <h3 class="text-sm font-semibold">Objective</h3>
+                    <p class="text-xs opacity-90 mt-1">Goals & Aims</p>
+                </div>
+            </div>
+            
+            <div class="nav-card cursor-pointer p-4 bg-gradient-to-r from-blue-500 to-cyan-600 text-white hover:from-blue-600 hover:to-cyan-700 transition-all duration-300" data-section="theory">
+                <div class="text-center">
+                    <i data-lucide="book-open" class="h-6 w-6 mx-auto mb-2"></i>
+                    <h3 class="text-sm font-semibold">Theory</h3>
+                    <p class="text-xs opacity-90 mt-1">Concepts</p>
+                </div>
+            </div>
+            
+            <div class="nav-card cursor-pointer p-4 bg-gradient-to-r from-green-500 to-teal-600 text-white hover:from-green-600 hover:to-teal-700 transition-all duration-300" data-section="procedure">
+                <div class="text-center">
+                    <i data-lucide="list-ordered" class="h-6 w-6 mx-auto mb-2"></i>
+                    <h3 class="text-sm font-semibold">Procedure</h3>
+                    <p class="text-xs opacity-90 mt-1">Steps</p>
+                </div>
+            </div>
+            
             {% if experiment.simulation_url or experiment.simulation_embed %}
-            <a href="#simulation" class="inline-flex items-center px-3 py-1.5 border border-indigo-300 text-sm font-medium rounded-md text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <svg class="h-4 w-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                </svg>
-                Simulation
-            </a>
+            <div class="nav-card cursor-pointer p-4 bg-gradient-to-r from-orange-500 to-red-600 text-white hover:from-orange-600 hover:to-red-700 transition-all duration-300" data-section="simulation">
+                <div class="text-center">
+                    <i data-lucide="play-circle" class="h-6 w-6 mx-auto mb-2"></i>
+                    <h3 class="text-sm font-semibold">Simulation</h3>
+                    <p class="text-xs opacity-90 mt-1">Interactive</p>
+                </div>
+            </div>
             {% endif %}
+            
             {% if experiment.questions.exists %}
-            <a href="#questions" class="inline-flex items-center px-3 py-1.5 border border-indigo-300 text-sm font-medium rounded-md text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <svg class="h-4 w-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                Questions
-            </a>
+            <div class="nav-card cursor-pointer p-4 bg-gradient-to-r from-purple-500 to-pink-600 text-white hover:from-purple-600 hover:to-pink-700 transition-all duration-300" data-section="questions">
+                <div class="text-center">
+                    <i data-lucide="help-circle" class="h-6 w-6 mx-auto mb-2"></i>
+                    <h3 class="text-sm font-semibold">Questions</h3>
+                    <p class="text-xs opacity-90 mt-1">Self-eval</p>
+                </div>
+            </div>
             {% endif %}
+            
             {% if experiment.additional_resources %}
-            <a href="#resources" class="inline-flex items-center px-3 py-1.5 border border-indigo-300 text-sm font-medium rounded-md text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <svg class="h-4 w-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                </svg>
-                Resources
-            </a>
+            <div class="nav-card cursor-pointer p-4 bg-gradient-to-r from-gray-600 to-gray-800 text-white hover:from-gray-700 hover:to-gray-900 transition-all duration-300" data-section="resources">
+                <div class="text-center">
+                    <i data-lucide="external-link" class="h-6 w-6 mx-auto mb-2"></i>
+                    <h3 class="text-sm font-semibold">Resources</h3>
+                    <p class="text-xs opacity-90 mt-1">Additional</p>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if has_test %}
+            <div class="nav-card cursor-pointer p-4 {% if test_attempt and test_attempt.passed %}bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700{% elif test_attempt %}bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700{% else %}bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700{% endif %} text-white transition-all duration-300" data-section="test">
+                <div class="text-center">
+                    <i data-lucide="{% if test_attempt and test_attempt.passed %}check-circle{% elif test_attempt %}clock{% else %}file-text{% endif %}" class="h-6 w-6 mx-auto mb-2"></i>
+                    <h3 class="text-sm font-semibold">Test</h3>
+                    <p class="text-xs opacity-90 mt-1">
+                        {% if test_attempt and test_attempt.passed %}
+                            Completed
+                        {% elif test_attempt %}
+                            Attempted
+                        {% else %}
+                            Take Test
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
             {% endif %}
         </div>
     </div>
 
-    <!-- Content Sections -->
-    <div class="px-4 py-5 sm:p-6">
-        <div class="space-y-8">
-            <!-- Objective Section -->
-            <div id="objective" class="bg-white rounded-lg">
-                <div class="px-4 py-5 sm:p-6">
-                    <h4 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
-                        <svg class="h-6 w-6 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        Objective
-                    </h4>
-                    <div class="prose prose-indigo max-w-none prose-headings:font-bold prose-p:text-gray-700 prose-li:text-gray-700">
-                        {{ experiment.objective|markdown|safe }}
-                    </div>
+    <!-- Content Container -->
+    <div class="content-container px-4 py-5 sm:p-6">
+        <!-- Objective Section -->
+        <div id="objective-content" class="content-section active">
+            <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-lg p-6 shadow-lg">
+                <h4 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <i data-lucide="target" class="h-8 w-8 text-indigo-600 mr-3"></i>
+                    Objective
+                </h4>
+                <div class="markdown-content prose-indigo">
+                    {{ experiment.objective|markdown|safe }}
                 </div>
             </div>
+        </div>
 
-            <!-- Theory Section -->
-            <div id="theory" class="bg-white rounded-lg">
-                <div class="px-4 py-5 sm:p-6">
-                    <h4 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
-                        <svg class="h-6 w-6 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                        </svg>
-                        Theory
-                    </h4>
-                    <div class="prose prose-indigo max-w-none prose-headings:font-bold prose-p:text-gray-700 prose-li:text-gray-700">
-                        {{ experiment.theory|markdown|safe }}
-                    </div>
+        <!-- Theory Section -->
+        <div id="theory-content" class="content-section hidden">
+            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg p-6 shadow-lg">
+                <h4 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <i data-lucide="book-open" class="h-8 w-8 text-blue-600 mr-3"></i>
+                    Theory
+                </h4>
+                <div class="markdown-content prose-blue">
+                    {{ experiment.theory|markdown|safe }}
                 </div>
             </div>
+        </div>
 
-            <!-- Procedure Section -->
-            <div id="procedure" class="bg-white rounded-lg">
-                <div class="px-4 py-5 sm:p-6">
-                    <h4 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
-                        <svg class="h-6 w-6 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
-                        </svg>
-                        Procedure
-                    </h4>
-                    <div class="prose prose-indigo max-w-none prose-headings:font-bold prose-p:text-gray-700 prose-li:text-gray-700">
-                        {{ experiment.procedure|markdown|safe }}
-                    </div>
+        <!-- Procedure Section -->
+        <div id="procedure-content" class="content-section hidden">
+            <div class="bg-gradient-to-br from-green-50 to-teal-50 rounded-lg p-6 shadow-lg">
+                <h4 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <svg class="h-8 w-8 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                    </svg>
+                    Procedure
+                </h4>
+                <div class="markdown-content prose-green">
+                    {{ experiment.procedure|markdown|safe }}
                 </div>
             </div>
+        </div>
 
-            <!-- Simulation Section -->
-            {% if experiment.simulation_url or experiment.simulation_embed %}
-            <div id="simulation" class="bg-white rounded-lg">
-                <div class="px-4 py-5 sm:p-6">
-                    <h4 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
-                        <svg class="h-6 w-6 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+        <!-- Simulation Section -->
+        {% if experiment.simulation_url or experiment.simulation_embed %}
+        <div id="simulation-content" class="content-section hidden">
+            <div class="bg-gradient-to-br from-orange-50 to-red-50 rounded-lg p-6 shadow-lg">
+                <h4 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <svg class="h-8 w-8 text-orange-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                    </svg>
+                    Simulation
+                </h4>
+                <div class="mt-4">
+                    {% if experiment.simulation_url %}
+                    <a href="{{ experiment.simulation_url }}" target="_blank" 
+                       class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all duration-300">
+                        Open Simulation
+                        <svg class="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                         </svg>
-                        Simulation
-                    </h4>
-                    <div class="mt-4">
-                        {% if experiment.simulation_url %}
-                        <a href="{{ experiment.simulation_url }}" target="_blank" 
-                           class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Open Simulation
-                        </a>
-                        {% endif %}
-                        {% if experiment.simulation_embed %}
-                        <div class="mt-4">
-                            {{ experiment.simulation_embed|safe }}
-                        </div>
-                        {% endif %}
+                    </a>
+                    {% endif %}
+                    {% if experiment.simulation_embed %}
+                    <div class="mt-6 rounded-lg overflow-hidden shadow-lg">
+                        {{ experiment.simulation_embed|safe }}
                     </div>
+                    {% endif %}
                 </div>
             </div>
-            {% endif %}
+        </div>
+        {% endif %}
 
-            <!-- Self-evaluation Questions Section -->
-            {% if experiment.questions.exists %}
-            <div id="questions" class="bg-white rounded-lg">
-                <div class="px-4 py-5 sm:p-6">
-                    <h4 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
-                        <svg class="h-6 w-6 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        Self-evaluation Questions
-                    </h4>
-                    <div class="space-y-6">
-                        {% for question in experiment.questions.all %}
-                        <div class="bg-gray-50 rounded-lg p-4">
-                            <div class="flex items-start">
-                                <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-indigo-100 rounded-full">
-                                    <span class="text-indigo-600 font-medium">{{ forloop.counter }}</span>
+        <!-- Questions Section -->
+        {% if experiment.questions.exists %}
+        <div id="questions-content" class="content-section hidden">
+            <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-6 shadow-lg">
+                <h4 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <svg class="h-8 w-8 text-purple-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Self-evaluation Questions
+                </h4>
+                <div class="space-y-6">
+                    {% for question in experiment.questions.all %}
+                    <div class="bg-white rounded-lg p-6 shadow-md border-l-4 border-purple-500">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-purple-100 rounded-full">
+                                <span class="text-purple-600 font-bold">{{ forloop.counter }}</span>
+                            </div>
+                            <div class="ml-4 flex-1">
+                                <div class="markdown-content prose-purple">
+                                    {{ question.question_text|markdown|safe }}
                                 </div>
-                                <div class="ml-4">
-                                    <div class="prose prose-indigo max-w-none prose-headings:font-bold prose-p:text-gray-700 prose-li:text-gray-700">
-                                        {{ question.question_text|markdown|safe }}
+                                {% if question.answer %}
+                                <div class="mt-4 p-4 bg-purple-50 rounded-lg">
+                                    <p class="text-sm font-medium text-purple-800 mb-2">Answer:</p>
+                                    <div class="markdown-content prose-purple">
+                                        {{ question.answer|markdown|safe }}
                                     </div>
-                                    {% if question.answer %}
-                                    <div class="mt-2">
-                                        <p class="text-sm text-gray-500">Answer:</p>
-                                        <div class="prose prose-indigo max-w-none prose-headings:font-bold prose-p:text-gray-700 prose-li:text-gray-700">
-                                            {{ question.answer|markdown|safe }}
-                                        </div>
-                                    </div>
-                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Resources Section -->
+        {% if experiment.additional_resources %}
+        <div id="resources-content" class="content-section hidden">
+            <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-6 shadow-lg">
+                <h4 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <svg class="h-8 w-8 text-gray-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                    Additional Resources
+                </h4>
+                <div class="markdown-content prose-gray">
+                    {{ experiment.additional_resources|markdown|safe }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Test Section -->
+        {% if has_test %}
+        <div id="test-content" class="content-section hidden">
+            <div class="{% if test_attempt and test_attempt.passed %}bg-gradient-to-br from-green-50 to-emerald-50{% elif test_attempt %}bg-gradient-to-br from-yellow-50 to-amber-50{% else %}bg-gradient-to-br from-red-50 to-rose-50{% endif %} rounded-lg p-6 shadow-lg">
+                <h4 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <i data-lucide="{% if test_attempt and test_attempt.passed %}check-circle{% elif test_attempt %}clock{% else %}file-text{% endif %}" class="h-8 w-8 {% if test_attempt and test_attempt.passed %}text-green-600{% elif test_attempt %}text-yellow-600{% else %}text-red-600{% endif %} mr-3"></i>
+                    MCQ Test
+                </h4>
+                
+                {% if test_attempt and test_attempt.passed %}
+                    <!-- Test Completed -->
+                    <div class="bg-white rounded-lg p-6 shadow-md border-l-4 border-green-500">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i data-lucide="check-circle" class="h-10 w-10 text-green-600"></i>
+                            </div>
+                            <div class="ml-4 flex-1">
+                                <h5 class="text-lg font-semibold text-gray-900">Test Completed Successfully!</h5>
+                                <p class="text-gray-600 mt-1">Score: {{ test_attempt.score }}% | Passed on {{ test_attempt.created_at|date:"F d, Y" }}</p>
+                                <div class="mt-4 flex space-x-3">
+                                    <a href="{% url 'lab_app:experiment_test_result' experiment.id %}" 
+                                       class="inline-flex items-center px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200">
+                                        <i data-lucide="eye" class="h-4 w-4 mr-2"></i>
+                                        View Results
+                                    </a>
+                                    <span class="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 text-sm font-medium rounded-md">
+                                        <i data-lucide="star" class="h-4 w-4 mr-2"></i>
+                                        Experiment Completed
+                                    </span>
                                 </div>
                             </div>
                         </div>
-                        {% endfor %}
                     </div>
-                </div>
-            </div>
-            {% endif %}
-
-            <!-- Additional Resources Section -->
-            {% if experiment.additional_resources %}
-            <div id="resources" class="bg-white rounded-lg">
-                <div class="px-4 py-5 sm:p-6">
-                    <h4 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
-                        <svg class="h-6 w-6 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                        </svg>
-                        Additional Resources
-                    </h4>
-                    <div class="prose prose-indigo max-w-none prose-headings:font-bold prose-p:text-gray-700 prose-li:text-gray-700">
-                        {{ experiment.additional_resources|markdown|safe }}
+                
+                {% elif test_attempt %}
+                    <!-- Test Attempted but Not Passed -->
+                    <div class="bg-white rounded-lg p-6 shadow-md border-l-4 border-yellow-500">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i data-lucide="clock" class="h-10 w-10 text-yellow-600"></i>
+                            </div>
+                            <div class="ml-4 flex-1">
+                                <h5 class="text-lg font-semibold text-gray-900">Test Not Passed</h5>
+                                <p class="text-gray-600 mt-1">
+                                    Score: {{ test_attempt.score }}% | Last attempt: {{ test_attempt.created_at|date:"F d, Y" }}
+                                    <br>
+                                    <span class="text-yellow-700 font-medium">You need {{ experiment.mcq_test.passing_score }}% to pass and complete the experiment.</span>
+                                </p>
+                                <div class="mt-4 flex space-x-3">
+                                    <a href="{% url 'lab_app:experiment_test' experiment.id %}" 
+                                       class="inline-flex items-center px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-md hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition-colors duration-200">
+                                        <i data-lucide="repeat" class="h-4 w-4 mr-2"></i>
+                                        Retake Test
+                                    </a>
+                                    <a href="{% url 'lab_app:experiment_test_result' experiment.id %}" 
+                                       class="inline-flex items-center px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200">
+                                        <i data-lucide="eye" class="h-4 w-4 mr-2"></i>
+                                        View Last Results
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                
+                {% else %}
+                    <!-- Test Not Attempted -->
+                    <div class="bg-white rounded-lg p-6 shadow-md border-l-4 border-red-500">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i data-lucide="file-text" class="h-10 w-10 text-red-600"></i>
+                            </div>
+                            <div class="ml-4 flex-1">
+                                <h5 class="text-lg font-semibold text-gray-900">Test Available</h5>
+                                <p class="text-gray-600 mt-1">
+                                    Complete the MCQ test to mark this experiment as finished.
+                                    <br>
+                                    <span class="text-red-700 font-medium">Passing score: {{ experiment.mcq_test.passing_score }}%</span>
+                                </p>
+                                <div class="mt-4">
+                                    <a href="{% url 'lab_app:experiment_test' experiment.id %}" 
+                                       class="inline-flex items-center px-6 py-3 bg-red-600 text-white text-base font-medium rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200 shadow-lg">
+                                        <i data-lucide="play-circle" class="h-5 w-5 mr-2"></i>
+                                        Take Test Now
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
-            {% endif %}
         </div>
+        {% endif %}
     </div>
 </div>
-{% endblock %} 
+
+<style>
+.nav-card {
+    transform: scale(1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-card:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.nav-card.active {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    border-bottom: 4px solid rgba(255, 255, 255, 0.8);
+}
+
+.content-section {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.content-section.hidden {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-card h3 {
+        font-size: 0.75rem;
+    }
+    .nav-card p {
+        font-size: 0.625rem;
+    }
+    .nav-card svg {
+        height: 1rem;
+        width: 1rem;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const navCards = document.querySelectorAll('.nav-card');
+    const contentSections = document.querySelectorAll('.content-section');
+
+    function switchContent(targetSection) {
+        // Remove active class from all nav cards
+        navCards.forEach(card => card.classList.remove('active'));
+        
+        // Hide all content sections
+        contentSections.forEach(section => {
+            section.classList.add('hidden');
+            section.classList.remove('active');
+        });
+
+        // Add active class to clicked nav card
+        const activeCard = document.querySelector(`[data-section="${targetSection}"]`);
+        if (activeCard) {
+            activeCard.classList.add('active');
+        }
+
+        // Show corresponding content section
+        const activeSection = document.getElementById(`${targetSection}-content`);
+        if (activeSection) {
+            activeSection.classList.remove('hidden');
+            activeSection.classList.add('active');
+        }
+    }
+
+    // Add click event listeners to nav cards
+    navCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const targetSection = this.getAttribute('data-section');
+            switchContent(targetSection);
+        });
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        const activeCardIndex = Array.from(navCards).findIndex(card => 
+            card.classList.contains('active')
+        );
+
+        if (e.key === 'ArrowLeft' && activeCardIndex > 0) {
+            const targetSection = navCards[activeCardIndex - 1].getAttribute('data-section');
+            switchContent(targetSection);
+        } else if (e.key === 'ArrowRight' && activeCardIndex < navCards.length - 1) {
+            const targetSection = navCards[activeCardIndex + 1].getAttribute('data-section');
+            switchContent(targetSection);
+        }
+    });
+});
+</script>
+{% endblock %}
