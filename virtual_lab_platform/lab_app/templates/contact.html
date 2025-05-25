@@ -1,67 +1,391 @@
 {% extends 'base.html' %}
 
+{% block title %}Contact Us - MCT RGIT  Virtual Lab Platform{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-gradient {
+        background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 50%, #581c87 100% )!important;
+    }
+    
+    .contact-card {
+        transition: all 0.3s ease;
+        border: 1px solid #e5e7eb;
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    }
+    
+    .contact-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border-color: #3730a3;
+    }
+    
+    .gradient-text {
+        background: linear-gradient(135deg, #1e3a8a, #581c87);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .floating-animation {
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+    }
+    
+    .bg-pattern {
+        background-image: 
+            radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0);
+        background-size: 20px 20px;
+    }
+    
+    .form-input {
+        transition: all 0.3s ease;
+    }
+    
+    .form-input:focus {
+        border-color: #3730a3;
+        box-shadow: 0 0 0 3px rgba(55, 48, 163, 0.1);
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="bg-white shadow overflow-hidden sm:rounded-lg">
-    <div class="px-4 py-5 sm:px-6">
-        <h3 class="text-lg leading-6 font-medium text-gray-900">
-            Contact Us
-        </h3>
-        <p class="mt-1 max-w-2xl text-sm text-gray-500">
-            Get in touch with us for any questions or feedback
-        </p>
-    </div>
-    <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
-        <div class="prose max-w-none">
-            <p>
-                We value your feedback and are here to help. Please use the following contact information to reach out to us:
+<!-- Hero Section -->
+<section class="hero-gradient bg-pattern relative overflow-hidden">
+    <div class="absolute inset-0 bg-black opacity-10"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="text-center">
+            <div class="floating-animation inline-block mb-8">
+                <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                    <i data-lucide="mail" class="h-10 w-10 text-white"></i>
+                </div>
+            </div>
+            
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+                Get in <span class="text-amber-300">Touch</span>
+            </h1>
+            
+            <p class="text-xl text-white text-opacity-90 mb-8 max-w-3xl mx-auto leading-relaxed">
+                Have questions, feedback, or suggestions? We'd love to hear from you! As MCT RGIT  Students ourselves, 
+                we understand the importance of continuous improvement and community support.
             </p>
-            <div class="mt-6">
-                <h4>Email</h4>
-                <p>
-                    <a href="mailto:contact@virtuallab.com" class="text-indigo-600 hover:text-indigo-900">
-                        contact@virtuallab.com
-                    </a>
-                </p>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Information Section -->
+<section class="py-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                How to <span class="gradient-text">Reach Us</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Choose the best way to connect with our MCT RGIT development team.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Email -->
+            <div class="contact-card bg-white rounded-2xl p-6 text-center">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="mail" class="h-8 w-8 text-blue-600"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Email</h3>
+                <p class="text-gray-600 text-sm mb-4">Send us a detailed message</p>
+                <a href="mailto:tiwariharsharvind@gmail.com" class="text-blue-600 hover:text-blue-800 font-semibold">
+                    tiwariharsharvind@gmail.com
+                </a>
             </div>
-            <div class="mt-6">
-                <h4>Address</h4>
-                <p>
-                    123 Virtual Lab Street<br>
-                    Education City, EC 12345<br>
-                    United States
-                </p>
+            
+            <!-- Student Support -->
+            <div class="contact-card bg-white rounded-2xl p-6 text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="graduation-cap" class="h-8 w-8 text-green-600"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Student Support</h3>
+                <p class="text-gray-600 text-sm mb-4">Academic assistance and guidance</p>
+                <a href="mailto:yakshrajput0@gmail.com" class="text-green-600 hover:text-green-800 font-semibold">
+                    yakshrajput0@gmail.com
+                </a>
             </div>
-            <div class="mt-6">
-                <h4>Office Hours</h4>
-                <p>
-                    Monday - Friday: 9:00 AM - 5:00 PM EST<br>
-                    Saturday - Sunday: Closed
-                </p>
+            
+            <!-- Technical Issues -->
+            <div class="contact-card bg-white rounded-2xl p-6 text-center">
+                <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="wrench" class="h-8 w-8 text-orange-600"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Technical Issues</h3>
+                <p class="text-gray-600 text-sm mb-4">Report bugs and technical problems</p>
+                <a href="mailto:tiwariharsharvind@gmail.com" class="text-orange-600 hover:text-orange-800 font-semibold">
+                    tiwariharsharvind@gmail.com
+                </a>
             </div>
-            <div class="mt-6">
-                <h4>Social Media</h4>
-                <div class="flex space-x-4">
-                    <a href="#" class="text-gray-400 hover:text-gray-500">
-                        <span class="sr-only">Facebook</span>
-                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-gray-500">
-                        <span class="sr-only">Twitter</span>
-                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-gray-500">
-                        <span class="sr-only">LinkedIn</span>
-                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path fill-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-.88-.06-1.601-1.12-1.601-1.16 0-1.35.91-1.35 1.601v5.604h-3v-11h3v1.765c.77-1.333 2.241-1.88 3.908-1.88 4.186 0 4.239 2.602 4.239 5.985v6.13z" clip-rule="evenodd"/>
-                        </svg>
-                    </a>
+            
+            <!-- Feedback -->
+            <div class="contact-card bg-white rounded-2xl p-6 text-center">
+                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="message-circle" class="h-8 w-8 text-purple-600"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Feedback</h3>
+                <p class="text-gray-600 text-sm mb-4">Suggestions and feature requests</p>
+                <a href="mailto:tiwariharsharvind@gmail.com" class="text-purple-600 hover:text-purple-800 font-semibold">
+                    tiwariharsharvind@gmail.com
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Form Section -->
+<section class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Send Us a <span class="gradient-text">Message</span>
+            </h2>
+            <p class="text-xl text-gray-600">
+                Fill out the form below and we'll get back to you as soon as possible.
+            </p>
+        </div>
+        
+        <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8 shadow-lg">
+            <form class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                        <input type="text" id="name" name="name" 
+                               class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none bg-white"
+                               placeholder="Enter your full name" required>
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                        <input type="email" id="email" name="email" 
+                               class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none bg-white"
+                               placeholder="Enter your email address" required>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="institution" class="block text-sm font-medium text-gray-700 mb-2">Institution/College</label>
+                        <input type="text" id="institution" name="institution" 
+                               class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none bg-white"
+                               placeholder="Your college or university">
+                    </div>
+                    <div>
+                        <label for="branch" class="block text-sm font-medium text-gray-700 mb-2">Engineering Branch</label>
+                        <select id="branch" name="branch" 
+                                class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none bg-white">
+                            <option value="">Select your branch</option>
+                            <option value="computer">Computer Engineering</option>
+                            <option value="electronics">Electronics Engineering</option>
+                            <option value="mechanical">Mechanical Engineering</option>
+                            <option value="civil">Civil Engineering</option>
+                            <option value="electrical">Electrical Engineering</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">Subject</label>
+                    <input type="text" id="subject" name="subject" 
+                           class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none bg-white"
+                           placeholder="What's this about?" required>
+                </div>
+                
+                <div>
+                    <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                    <textarea id="message" name="message" rows="6" 
+                              class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none bg-white"
+                              placeholder="Tell us more about your question, feedback, or suggestion..." required></textarea>
+                </div>
+                
+                <div class="text-center">
+                    <button type="submit" 
+                            class="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300">
+                        Send Message
+                        <i data-lucide="send" class="ml-2 h-5 w-5"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Developers Contact Section -->
+<section class="py-20 bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Connect with the <span class="gradient-text">Developers</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Want to connect directly with Harsh and Yaksh? Here's how you can reach out to the MCT RGIT development team.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+            <!-- Developer 1 Contact -->
+            <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-xl font-bold text-white">HT</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Harsh Tiwari</h3>
+                    <p class="text-blue-600 font-semibold mb-6">Full-Stack Developer</p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-center space-x-3 text-gray-600">
+                            <i data-lucide="mail" class="h-5 w-5"></i>
+                            <a href="mailto:tiwariharsharvind@gmail.com" class="hover:text-blue-600 transition-colors">
+                                tiwariharsharvind@gmail.com
+                            </a>
+                        </div>
+                        <div class="flex items-center justify-center space-x-3 text-gray-600">
+                            <i data-lucide="layers" class="h-5 w-5"></i>
+                            <span>Frontend & Backend</span>
+                        </div>
+                        <div class="flex items-center justify-center space-x-3 text-gray-600">
+                            <i data-lucide="palette" class="h-5 w-5"></i>
+                            <span>UI/UX Design</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Developer 2 Contact -->
+            <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-xl font-bold text-white">YR</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Yaksh Rajput</h3>
+                    <p class="text-purple-600 font-semibold mb-6">DevOps & UX Specialist</p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-center space-x-3 text-gray-600">
+                            <i data-lucide="mail" class="h-5 w-5"></i>
+                            <a href="mailto:yakshrajput0@gmail.com" class="hover:text-purple-600 transition-colors">
+                                yakshrajput0@gmail.com
+                            </a>
+                        </div>
+                        <div class="flex items-center justify-center space-x-3 text-gray-600">
+                            <i data-lucide="settings" class="h-5 w-5"></i>
+                            <span>DevOps & CI/CD</span>
+                        </div>
+                        <div class="flex items-center justify-center space-x-3 text-gray-600">
+                            <i data-lucide="container" class="h-5 w-5"></i>
+                            <span>Kubernetes & Docker</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Frequently Asked <span class="gradient-text">Questions</span>
+            </h2>
+            <p class="text-xl text-gray-600">
+                Quick answers to common questions about our platform.
+            </p>
+        </div>
+        
+        <div class="space-y-8">
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-100">
+                <h3 class="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+                    <i data-lucide="help-circle" class="h-5 w-5 mr-2 text-blue-600"></i>
+                    How quickly do you respond to emails?
+                </h3>
+                <p class="text-gray-600">
+                    As MCT RGIT  Students ourselves, we typically respond within 24-48 hours during weekdays. 
+                    For urgent technical issues, we aim to respond within 12 hours.
+                </p>
+            </div>
+            
+            <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-6 border border-green-100">
+                <h3 class="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+                    <i data-lucide="help-circle" class="h-5 w-5 mr-2 text-green-600"></i>
+                    Can I suggest new experiments or features?
+                </h3>
+                <p class="text-gray-600">
+                    Absolutely! We welcome all suggestions from fellow MCT RGIT  Students. Your feedback helps us improve 
+                    the platform and add content that's actually useful for engineering education.
+                </p>
+            </div>
+            
+            <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-6 border border-purple-100">
+                <h3 class="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+                    <i data-lucide="help-circle" class="h-5 w-5 mr-2 text-purple-600"></i>
+                    Do you provide academic support?
+                </h3>
+                <p class="text-gray-600">
+                    While we can't provide direct tutoring, we're happy to help with platform-related questions 
+                    and can guide you to the right resources for your specific engineering topics.
+                </p>
+            </div>
+            
+            <div class="bg-gradient-to-r from-orange-50 to-amber-50 rounded-lg p-6 border border-orange-100">
+                <h3 class="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+                    <i data-lucide="help-circle" class="h-5 w-5 mr-2 text-orange-600"></i>
+                    Can MCT RGIT institution collaborate with you?
+                </h3>
+                <p class="text-gray-600">
+                    Yes! We're open to collaborating with MCT RGIT and other educational institutions to enhance the platform 
+                    and make it more beneficial for students. Contact us to discuss partnership opportunities.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Response Time Section -->
+<section class="py-20 bg-gradient-to-r from-indigo-600 to-purple-600">
+    <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+            We're Here to Help!
+        </h2>
+        <p class="text-xl text-white text-opacity-90 mb-10">
+            As fellow MCT RGIT engineering students, we understand your challenges and are committed to helping you succeed. 
+            Don't hesitate to reach out with any questions or feedback.
+        </p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center">
+                <div class="text-3xl font-bold text-white">< 24h</div>
+                <p class="text-white text-opacity-80">Average Response Time</p>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold text-white">100%</div>
+                <p class="text-white text-opacity-80">Student-Focused</p>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold text-white">24/7</div>
+                <p class="text-white text-opacity-80">Platform Availability</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+    
+    // Simple form validation
+    document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Thank you for your message! We\'ll get back to you soon.');
+    });
+</script>
 {% endblock %} 

@@ -1,44 +1,336 @@
 {% extends 'base.html' %}
 
+{% block title %}About - MCT RGIT  Virtual Lab Platform{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-gradient {
+        background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 50%, #581c87 100%) !important;
+    }
+    
+    .feature-card {
+        transition: all 0.3s ease;
+        border: 1px solid #e5e7eb;
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border-color: #3730a3;
+    }
+    
+    .gradient-text {
+        background: linear-gradient(135deg, #1e3a8a, #581c87);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .floating-animation {
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+    }
+    
+    .bg-pattern {
+        background-image: 
+            radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0);
+        background-size: 20px 20px;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="bg-white shadow overflow-hidden sm:rounded-lg">
-    <div class="px-4 py-5 sm:px-6">
-        <h3 class="text-lg leading-6 font-medium text-gray-900">
-            About Virtual Lab Platform
-        </h3>
-        <p class="mt-1 max-w-2xl text-sm text-gray-500">
-            Empowering education through virtual experiments
-        </p>
-    </div>
-    <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
-        <div class="prose max-w-none">
-            <p>
-                Welcome to the Virtual Lab Platform, a comprehensive online learning environment designed to provide students with hands-on experience in various subjects through virtual experiments.
+<!-- Hero Section -->
+<section class="hero-gradient bg-pattern relative overflow-hidden">
+    <div class="absolute inset-0 bg-black opacity-10"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="text-center">
+            <div class="floating-animation inline-block mb-8">
+                <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                    <i data-lucide="info" class="h-10 w-10 text-white"></i>
+                </div>
+            </div>
+            
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+                About Our <span class="text-amber-300">Educational Platform</span>
+            </h1>
+            
+            <p class="text-xl text-white text-opacity-90 mb-8 max-w-3xl mx-auto leading-relaxed">
+                Learn about our mission to revolutionize engineering education through innovative virtual laboratory experiences.
             </p>
-            <h2>Our Mission</h2>
-            <p>
-                Our mission is to make quality education accessible to everyone by providing interactive virtual experiments that complement traditional learning methods. We believe in learning by doing, and our platform enables students to conduct experiments in a safe, controlled environment.
-            </p>
-            <h2>Features</h2>
-            <ul>
-                <li>Wide range of subjects and experiments</li>
-                <li>Interactive simulations and visualizations</li>
-                <li>Comprehensive theory and procedures</li>
-                <li>Self-evaluation questions</li>
-                <li>Additional learning resources</li>
-            </ul>
-            <h2>How to Use</h2>
-            <p>
-                Browse through our available subjects, select an experiment, and follow the provided instructions. Each experiment includes:
-            </p>
-            <ul>
-                <li>Clear objectives</li>
-                <li>Detailed theory</li>
-                <li>Step-by-step procedures</li>
-                <li>Interactive simulations</li>
-                <li>Self-assessment questions</li>
-            </ul>
         </div>
     </div>
-</div>
-{% endblock %} 
+</section>
+
+<!-- Our Story Section -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                    Our <span class="gradient-text">Story</span>
+                </h2>
+                <div class="space-y-6 text-lg text-gray-600 leading-relaxed">
+                    <p>
+                        The Virtual Lab Platform was born from a simple observation: engineering students need more accessible, 
+                        comprehensive, and engaging ways to practice laboratory experiments and reinforce their theoretical knowledge.
+                    </p>
+                    <p>
+                        As final-year Computer Engineering students, Harsh Tiwari and Yaksh Rajput experienced firsthand the 
+                        challenges of limited lab access, equipment constraints, and the need for flexible learning schedules. 
+                        This platform represents their solution to these common problems faced by engineering students worldwide.
+                    </p>
+                    <p>
+                        What started as a project to help fellow classmates has evolved into a comprehensive educational platform 
+                        designed to support engineering students across all branches and semesters.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="relative">
+                <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 shadow-xl">
+                    <div class="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full mx-auto mb-6">
+                        <i data-lucide="lightbulb" class="h-8 w-8 text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 text-center mb-4">The Idea</h3>
+                    <p class="text-gray-600 text-center leading-relaxed">
+                        "What if we could create a platform that makes laboratory learning as accessible as reading a textbook, 
+                        but as engaging as hands-on experimentation?"
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mission & Vision Section -->
+<section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Our <span class="gradient-text">Mission & Vision</span>
+            </h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <!-- Mission -->
+            <div class="feature-card bg-white rounded-2xl p-8">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i data-lucide="target" class="h-8 w-8 text-blue-600"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">Our Mission</h3>
+                <p class="text-gray-600 leading-relaxed text-center">
+                    To democratize engineering education by providing accessible, comprehensive virtual laboratory experiences 
+                    that complement traditional learning methods and help students excel in their academic journey.
+                </p>
+            </div>
+            
+            <!-- Vision -->
+            <div class="feature-card bg-white rounded-2xl p-8">
+                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i data-lucide="eye" class="h-8 w-8 text-purple-600"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">Our Vision</h3>
+                <p class="text-gray-600 leading-relaxed text-center">
+                    To become the leading platform for virtual engineering education, empowering students worldwide 
+                    to bridge the gap between theoretical knowledge and practical application.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Platform <span class="gradient-text">Features</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Designed specifically for engineering students with features that enhance learning and academic performance.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Feature 1 -->
+            <div class="feature-card bg-white rounded-2xl p-6 text-center">
+                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="book-open" class="h-6 w-6 text-blue-600"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-3">Curriculum Aligned</h3>
+                <p class="text-gray-600 text-sm">Content designed to match engineering syllabus across all branches</p>
+            </div>
+            
+            <!-- Feature 2 -->
+            <div class="feature-card bg-white rounded-2xl p-6 text-center">
+                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="flask-conical" class="h-6 w-6 text-green-600"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-3">Virtual Experiments</h3>
+                <p class="text-gray-600 text-sm">Interactive simulations that mirror real laboratory conditions</p>
+            </div>
+            
+            <!-- Feature 3 -->
+            <div class="feature-card bg-white rounded-2xl p-6 text-center">
+                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="clipboard-check" class="h-6 w-6 text-purple-600"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-3">MCQ Assessments</h3>
+                <p class="text-gray-600 text-sm">Practice tests that prepare you for university examinations</p>
+            </div>
+            
+            <!-- Feature 4 -->
+            <div class="feature-card bg-white rounded-2xl p-6 text-center">
+                <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="trending-up" class="h-6 w-6 text-orange-600"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-3">Progress Tracking</h3>
+                <p class="text-gray-600 text-sm">Monitor your learning progress and identify improvement areas</p>
+            </div>
+            
+            <!-- Feature 5 -->
+            <div class="feature-card bg-white rounded-2xl p-6 text-center">
+                <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="clock" class="h-6 w-6 text-red-600"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-3">24/7 Access</h3>
+                <p class="text-gray-600 text-sm">Study and practice anytime, anywhere at your own pace</p>
+            </div>
+            
+            <!-- Feature 6 -->
+            <div class="feature-card bg-white rounded-2xl p-6 text-center">
+                <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="shield-check" class="h-6 w-6 text-indigo-600"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-3">Safe Environment</h3>
+                <p class="text-gray-600 text-sm">Risk-free experimentation without equipment damage concerns</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Developers Section -->
+<section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Meet the <span class="gradient-text">Developers</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                The passionate engineering students behind this educational innovation.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">            <!-- Developer 1 -->
+            <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div class="text-center">
+                    <div class="w-32 h-32 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-3xl font-bold text-white">HT</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Harsh Tiwari</h3>
+                    <p class="text-blue-600 font-semibold mb-4">Full-Stack Developer</p>
+                    
+                    <div class="space-y-4 text-gray-600 mb-6">
+                        <div class="flex items-center justify-center space-x-2">
+                            <i data-lucide="graduation-cap" class="h-5 w-5 text-gray-400"></i>
+                            <span>Final Year, Computer Engineering</span>
+                        </div>
+                        <div class="flex items-center justify-center space-x-2">
+                            <i data-lucide="layers" class="h-5 w-5 text-gray-400"></i>
+                            <span>Full-Stack Development</span>
+                        </div>
+                        <div class="flex items-center justify-center space-x-2">
+                            <i data-lucide="palette" class="h-5 w-5 text-gray-400"></i>
+                            <span>UI/UX Design</span>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-600 leading-relaxed">
+                        Specializes in end-to-end web development, from intuitive frontend interfaces to robust backend systems. 
+                        Passionate about creating seamless user experiences and scalable educational technology solutions.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Developer 2 -->
+            <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div class="text-center">
+                    <div class="w-32 h-32 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-3xl font-bold text-white">YR</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Yaksh Rajput</h3>
+                    <p class="text-purple-600 font-semibold mb-4">DevOps & UX Specialist</p>
+                    
+                    <div class="space-y-4 text-gray-600 mb-6">
+                        <div class="flex items-center justify-center space-x-2">
+                            <i data-lucide="graduation-cap" class="h-5 w-5 text-gray-400"></i>
+                            <span>Final Year, Computer Engineering</span>
+                        </div>
+                        <div class="flex items-center justify-center space-x-2">
+                            <i data-lucide="settings" class="h-5 w-5 text-gray-400"></i>
+                            <span>DevOps & CI/CD</span>
+                        </div>
+                        <div class="flex items-center justify-center space-x-2">
+                            <i data-lucide="container" class="h-5 w-5 text-gray-400"></i>
+                            <span>Kubernetes & Docker</span>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-600 leading-relaxed">
+                        Expert in DevOps practices, containerization, and modern deployment pipelines. Focuses on creating 
+                        intuitive user experiences while ensuring reliable, scalable infrastructure for educational platforms.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-16 text-center">
+            <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 max-w-4xl mx-auto">
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Our Commitment</h3>
+                <p class="text-lg text-gray-600 leading-relaxed">
+                    As engineering students ourselves, we understand the challenges you face. Our platform is built 
+                    with genuine care for student success, incorporating feedback from fellow students and continuous 
+                    improvement based on real educational needs.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact CTA Section -->
+<section class="py-20 bg-gradient-to-r from-indigo-600 to-purple-600">
+    <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+            Have Questions or Feedback?
+        </h2>
+        <p class="text-xl text-white text-opacity-90 mb-10">
+            We'd love to hear from you! Your feedback helps us improve and serve students better.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'lab_app:contact' %}" 
+               class="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-indigo-600 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white transition-all duration-300">
+                Contact Us
+                <i data-lucide="mail" class="ml-2 h-5 w-5"></i>
+            </a>
+            
+            <a href="{% url 'account_signup' %}" 
+               class="inline-flex items-center px-8 py-4 border-2 border-white text-lg font-medium rounded-xl text-white hover:bg-white hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white transition-all duration-300">
+                Join the Platform
+                <i data-lucide="arrow-right" class="ml-2 h-5 w-5"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+</script>
+{% endblock %}

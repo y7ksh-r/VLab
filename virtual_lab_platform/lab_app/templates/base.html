@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Virtual Lab Platform{% endblock %}</title>
+    <title>{% block title %}MCT RGIT  Virtual Lab Platform{% endblock %}</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@tailwindcss/typography@latest/dist/index.js"></script>
@@ -42,6 +42,37 @@
             .btn-primary {
                 @apply inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500;
             }
+            .mctr-gradient {
+                background: linear-gradient(135deg, #1e40af 0%, #7c3aed 50%, #dc2626 100%);
+            }
+            .mctr-card {
+                background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+                border: 1px solid #e2e8f0;
+                transition: all 0.3s ease;
+            }
+            .mctr-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+                border-color: #6366f1;
+            }
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
         }
     </style>
     {% block extra_css %}{% endblock %}
@@ -54,7 +85,7 @@
                 <div class="flex">
                     <div class="flex-shrink-0 flex items-center">
                         <a href="{% url 'lab_app:index' %}" class="text-xl font-bold text-gray-800">
-                            Virtual Lab
+                            MCT RGIT  Virtual Lab
                         </a>
                     </div>
                     <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
@@ -131,7 +162,8 @@
     <footer class="bg-white border-t border-gray-200 mt-8">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <div class="text-center text-gray-500 text-sm">
-                <p>&copy; {% now "Y" %} Virtual Lab Platform. All rights reserved.</p>
+                <p>&copy; {% now "Y" %} MCT RGIT  Virtual Lab Platform. All rights reserved.</p>
+                <p class="mt-2">Developed by <span class="font-medium text-gray-700">Harsh Tiwari</span> and <span class="font-medium text-gray-700">Yaksh Rajput</span></p>
             </div>
         </div>
     </footer>
@@ -165,4 +197,4 @@
         lucide.createIcons();
     </script>
 </body>
-</html> 
+</html>

@@ -1,54 +1,477 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}MCT RGIT  Virtual Lab Platform - Educational Engineering Laboratory{% endblock %}
+
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<style>
+    .hero-gradient {
+        background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 50%, #581c87 100%) !important;
+    }
+    
+    .feature-card {
+        transition: all 0.3s ease;
+        border: 1px solid #e5e7eb;
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border-color: #3730a3;
+    }
+    
+    .stats-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #1e3a8a, #581c87);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .floating-animation {
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+    }
+    
+    .pulse-button {
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+    
+    .bg-pattern {
+        background-image: 
+            radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0);
+        background-size: 20px 20px;
+    }
+    
+    .gradient-text {
+        background: linear-gradient(135deg, #1e3a8a, #581c87);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .educational-badge {
+        background: linear-gradient(135deg, #059669, #047857);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-<div class="bg-white shadow overflow-hidden sm:rounded-lg">
-    <div class="px-4 py-5 sm:px-6">
-        <h3 class="text-2xl font-bold text-gray-900">
-            Available Subjects
-        </h3>
-        <p class="mt-1 max-w-2xl text-sm text-gray-500">
-            Select a subject to view its experiments
-        </p>
-    </div>
-    <div class="border-t border-gray-200">
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 p-6">
-            {% for subject in subjects %}
-            <div class="subject-card">
-                <div class="flex items-center mb-4">
-                    <div class="flex-shrink-0">
-                        <svg class="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                        </svg>
-                    </div>
-                    <div class="ml-4 w-0 flex-1">
-                        <h3 class="text-lg font-semibold text-gray-900 truncate">
-                            {{ subject.name }}
-                        </h3>
-                    </div>
-                </div>
-                <p class="text-sm text-gray-600 mb-4">
-                    {{ subject.description|truncatewords:20 }}
-                </p>
-                <div>
-                    <a href="{% url 'lab_app:subject_list' subject.id %}" class="btn btn--primary">
-                        View Experiments
-                        <svg class="btn__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
+<!-- Hero Section -->
+<section class="hero-gradient bg-pattern relative overflow-hidden">
+    <div class="absolute inset-0 bg-black opacity-10"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+        <div class="text-center">
+            <div class="mb-6">
+                <span class="educational-badge">
+                    <i data-lucide="graduation-cap" class="h-4 w-4"></i>
+                    Educational Platform for MCT RGIT Engineering Students
+                </span>
+            </div>
+            
+            <div class="floating-animation inline-block mb-8">
+                <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                    <i data-lucide="flask-conical" class="h-10 w-10 text-white"></i>
                 </div>
             </div>
-            {% empty %}
-            <div class="col-span-full text-center py-12">
-                <p class="text-gray-500">No subjects available yet.</p>
+            
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+                Virtual Laboratory Platform
+                <span class="block text-amber-300">for MCT RGIT  Students</span>
+            </h1>
+            
+            <p class="text-xl md:text-2xl text-white text-opacity-90 mb-10 max-w-3xl mx-auto leading-relaxed">
+                Enhance your engineering studies at MCT RGIT with our comprehensive virtual laboratory platform. 
+                Perform experiments, practice concepts, and excel in your academic journey—designed by students, for students.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="{% url 'account_signup' %}" 
+                   class="pulse-button inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-blue-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white transition-all duration-300 shadow-lg">
+                    Start Learning
+                    <i data-lucide="arrow-right" class="ml-2 h-5 w-5"></i>
+                </a>
+                
+                <a href="{% url 'account_login' %}" 
+                   class="inline-flex items-center px-8 py-4 border-2 border-white text-lg font-medium rounded-xl text-white hover:bg-white hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white transition-all duration-300">
+                    Student Login
+                    <i data-lucide="log-in" class="ml-2 h-5 w-5"></i>
+                </a>
             </div>
-            {% endfor %}
+            
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <div class="text-center">
+                    <div class="stats-number text-white">{{ subjects_count }}+</div>
+                    <p class="text-white text-opacity-80 font-medium">Engineering Subjects</p>
+                </div>
+                <div class="text-center">
+                    <div class="stats-number text-white">{{ experiments_count }}+</div>
+                    <p class="text-white text-opacity-80 font-medium">Laboratory Experiments</p>
+                </div>
+                <div class="text-center">
+                    <div class="stats-number text-white">∞</div>
+                    <p class="text-white text-opacity-80 font-medium">Learning Opportunities</p>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-20 left-10 w-4 h-4 bg-white rounded-full opacity-20 floating-animation" style="animation-delay: -1s;"></div>
+    <div class="absolute top-40 right-20 w-6 h-6 bg-yellow-300 rounded-full opacity-30 floating-animation" style="animation-delay: -2s;"></div>
+    <div class="absolute bottom-20 left-1/4 w-3 h-3 bg-white rounded-full opacity-25 floating-animation" style="animation-delay: -3s;"></div>
+</section>
+
+<!-- Features Section -->
+<section class="py-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Why Use Our <span class="gradient-text">Educational Lab Platform?</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Designed for MCT RGIT  Students to complement your engineering curriculum with practical, hands-on learning experiences.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Feature 1 -->
+            <div class="feature-card bg-white rounded-2xl p-8 text-center">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i data-lucide="book-open" class="h-8 w-8 text-blue-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Curriculum Aligned</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Experiments and content designed to match engineering syllabus across all semesters and branches.
+                </p>
+            </div>
+            
+            <!-- Feature 2 -->
+            <div class="feature-card bg-white rounded-2xl p-8 text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i data-lucide="clipboard-check" class="h-8 w-8 text-green-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Academic Assessment</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Practice with MCQ tests that help you prepare for university exams and practical vivas.
+                </p>
+            </div>
+            
+            <!-- Feature 3 -->
+            <div class="feature-card bg-white rounded-2xl p-8 text-center">
+                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i data-lucide="trending-up" class="h-8 w-8 text-purple-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Academic Progress</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Track your learning progress and identify areas that need more focus in your studies.
+                </p>
+            </div>
+            
+            <!-- Feature 4 -->
+            <div class="feature-card bg-white rounded-2xl p-8 text-center">
+                <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i data-lucide="clock" class="h-8 w-8 text-orange-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Flexible Study</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Study and practice at your own pace, perfect for exam preparation and revision.
+                </p>
+            </div>
+            
+            <!-- Feature 5 -->
+            <div class="feature-card bg-white rounded-2xl p-8 text-center">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i data-lucide="users" class="h-8 w-8 text-red-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-4">All Engineering Branches</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Comprehensive coverage for Computer, Electronics, Mechanical, Civil, and Electrical Engineering.
+                </p>
+            </div>
+            
+            <!-- Feature 6 -->
+            <div class="feature-card bg-white rounded-2xl p-8 text-center">
+                <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i data-lucide="shield-check" class="h-8 w-8 text-indigo-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Safe Learning Environment</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Practice experiments safely without the risk of equipment damage or safety concerns.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                How It <span class="gradient-text">Works</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Get started with your virtual laboratory experience in just a few simple steps.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <!-- Step 1 -->
+            <div class="text-center">
+                <div class="relative mb-8">
+                    <div class="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center mx-auto">
+                        <span class="text-2xl font-bold text-white">1</span>
+                    </div>
+                    <div class="absolute top-10 left-full w-full h-0.5 bg-gray-300 hidden md:block"></div>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Create Your Account</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Sign up with your academic details and get instant access to your personalized dashboard.
+                </p>
+            </div>
+            
+            <!-- Step 2 -->
+            <div class="text-center">
+                <div class="relative mb-8">
+                    <div class="w-20 h-20 bg-green-600 rounded-full flex items-center justify-center mx-auto">
+                        <span class="text-2xl font-bold text-white">2</span>
+                    </div>
+                    <div class="absolute top-10 left-full w-full h-0.5 bg-gray-300 hidden md:block"></div>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Choose Your Subject</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Browse subjects relevant to your semester and branch, then select experiments to practice.
+                </p>
+            </div>
+            
+            <!-- Step 3 -->
+            <div class="text-center">
+                <div class="relative mb-8">
+                    <div class="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto">
+                        <span class="text-2xl font-bold text-white">3</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Start Learning</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Conduct experiments, take tests, and track your progress as you master each concept.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Benefits Section -->
+<section class="py-20 bg-indigo-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                    Perfect for <span class="gradient-text">MCT RGIT Engineering Students</span>
+                </h2>
+                <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                    Whether you're a first-year student or preparing for final exams at MCTR Git, our virtual lab platform 
+                    provides the perfect environment to practice and excel in your engineering studies.
+                </p>
+                
+                <div class="space-y-6">
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                                <i data-lucide="check" class="h-5 w-5 text-white"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Semester-wise Organization</h3>
+                            <p class="text-gray-600">Content organized by semester and branch for easy navigation</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                                <i data-lucide="check" class="h-5 w-5 text-white"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Real Exam Preparation</h3>
+                            <p class="text-gray-600">MCQ tests that mirror actual examination patterns</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                                <i data-lucide="check" class="h-5 w-5 text-white"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Instant Feedback</h3>
+                            <p class="text-gray-600">Get immediate results and detailed explanations for better understanding</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="relative">
+                <div class="bg-white rounded-2xl shadow-2xl p-8 transform rotate-2">
+                    <div class="bg-indigo-600 h-4 rounded-t-lg mb-4"></div>
+                    <div class="space-y-4">
+                        <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+                        <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+                        <div class="h-4 bg-gray-200 rounded w-5/6"></div>
+                        <div class="bg-green-100 p-4 rounded-lg">
+                            <div class="h-4 bg-green-300 rounded w-2/3"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute top-4 left-4 bg-white rounded-2xl shadow-xl p-8 transform -rotate-2">
+                    <div class="bg-purple-600 h-4 rounded-t-lg mb-4"></div>
+                    <div class="space-y-4">
+                        <div class="h-4 bg-gray-200 rounded w-4/5"></div>
+                        <div class="h-4 bg-gray-200 rounded w-3/5"></div>
+                        <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Developers Section -->
+<section class="py-20 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Meet the <span class="gradient-text">Developers</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Created by MCT RGIT Computer Engineering final year students who understand the challenges of engineering education.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+            <!-- Developer 1 -->
+            <div class="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl p-8 text-center hover:shadow-lg transition-all duration-300">
+                <div class="w-24 h-24 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="text-2xl font-bold text-white">HT</span>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">Harsh Tiwari</h3>
+                <p class="text-blue-600 font-semibold mb-4">Full-Stack Developer</p>
+                <p class="text-gray-600 leading-relaxed mb-6">
+                    Final year Computer Engineering student specializing in full-stack development. Passionate about 
+                    creating seamless user experiences and robust backend systems for educational platforms.
+                </p>
+                <div class="flex justify-center space-x-4">
+                    <div class="flex items-center text-gray-500">
+                        <i data-lucide="graduation-cap" class="h-5 w-5 mr-2"></i>
+                        <span>Final Year</span>
+                    </div>
+                    <div class="flex items-center text-gray-500">
+                        <i data-lucide="layers" class="h-5 w-5 mr-2"></i>
+                        <span>Full-Stack</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Developer 2 -->
+            <div class="bg-gradient-to-br from-purple-50 to-pink-100 rounded-2xl p-8 text-center hover:shadow-lg transition-all duration-300">
+                <div class="w-24 h-24 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="text-2xl font-bold text-white">YR</span>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">Yaksh Rajput</h3>
+                <p class="text-purple-600 font-semibold mb-4">DevOps & UX Specialist</p>
+                <p class="text-gray-600 leading-relaxed mb-6">
+                    Final year Computer Engineering student focused on DevOps practices, CI/CD pipelines, and user experience design. 
+                    Expert in containerization technologies and modern deployment strategies.
+                </p>
+                <div class="flex justify-center space-x-4">
+                    <div class="flex items-center text-gray-500">
+                        <i data-lucide="graduation-cap" class="h-5 w-5 mr-2"></i>
+                        <span>Final Year</span>
+                    </div>
+                    <div class="flex items-center text-gray-500">
+                        <i data-lucide="settings" class="h-5 w-5 mr-2"></i>
+                        <span>DevOps</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-16 text-center">
+            <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 max-w-4xl mx-auto">
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Our Mission</h3>
+                <p class="text-lg text-gray-600 leading-relaxed">
+                    As engineering students ourselves, we recognized the need for accessible, comprehensive virtual laboratory 
+                    experiences. This platform represents our commitment to helping fellow students overcome the challenges 
+                    of practical learning and excel in their engineering studies through innovative technology.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 bg-gradient-to-r from-indigo-600 to-purple-600">
+    <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+            Ready to Transform Your Learning Experience?
+        </h2>
+        <p class="text-xl text-white text-opacity-90 mb-10">
+            Join thousands of engineering students who are already mastering their subjects through virtual labs.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'account_signup' %}" 
+               class="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-indigo-600 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white transition-all duration-300">
+                Start Learning Today
+                <i data-lucide="arrow-right" class="ml-2 h-5 w-5"></i>
+            </a>
+            
+            <a href="{% url 'lab_app:about' %}" 
+               class="inline-flex items-center px-8 py-4 border-2 border-white text-lg font-medium rounded-xl text-white hover:bg-white hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white transition-all duration-300">
+                Learn More
+                <i data-lucide="info" class="ml-2 h-5 w-5"></i>
+            </a>
+        </div>
+        
+        <p class="text-white text-opacity-70 mt-6 text-sm">
+            Free to start • No credit card required • Instant access
+        </p>
+    </div>
+</section>
+
+<script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+    
+    // Add smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
 {% endblock %}
